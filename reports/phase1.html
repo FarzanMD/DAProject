@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>گزارش فاز اول - پروژه درس تحلیل داده</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
+        
+        body {
+            font-family: 'Vazirmatn', Tahoma, sans-serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #1a252f;
+            margin-bottom: 8px;
+        }
+
+        .header h2 {
+            font-size: 16px;
+            color: #7f8c8d;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            background: #ecf0f1;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        h3 {
+            color: #2980b9;
+            border-right: 4px solid #2980b9;
+            padding-right: 10px;
+            margin-top: 35px;
+            font-size: 18px;
+        }
+
+        h4 {
+            color: #34495e;
+            margin-top: 20px;
+            font-size: 15px;
+        }
+
+        p, li {
+            font-size: 14.5px;
+            text-align: justify;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        table, th, td {
+            border: 1px solid #bdc3c7;
+        }
+
+        th {
+            background-color: #34495e;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f4f4;
+        }
+
+        .figure-box {
+            text-align: center;
+            margin: 25px 0;
+            padding: 15px;
+            background: #fdfefe;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+
+        .figure-box img {
+            max-width: 85%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .figure-caption {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .box {
+            background-color: #e8f8f5;
+            border-right: 4px solid #1abc9c;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .code-block {
+            background-color: #27ae60;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; padding: 0; width: 100%; }
+            .figure-box { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>گزارش فاز اول: فهم مسئله، شناخت داده و تحلیل اکتشافی</h1>
+        <h2>درس تحلیل داده - پاییز ۱۴۰۵</h2>
+    </div>
+
+    <div class="meta-info">
+        <span><strong>نام دانشجو:</strong> فرزان محمدیان دلویی</span>
+        <span><strong>شماره دانشجویی:</strong> ۴۰۲۱۰۰۵۱۵</span>
+        <span><strong>مسیر انتخابی:</strong> مسیر الف (NYC TLC Trip Record)</span>
+    </div>
+
+    <h3>۱. صورت‌بندی مسئله و تعریف سؤال تحلیلی</h3>
+    <p>
+        هدف اصلی این پروژه، پیش‌بینی و تحلیل تقاضای ساعتی سفرهای ناوگان تاکسی زرد شهر نیویورک در مناطق مختلف (<span class="code-block">Taxi Zones</span>) است. خروجی این تحلیل به سیستم‌های مدیریت ناوگان کمک می‌کند تا تخصیص خودروها در سطح شهر را بر اساس تقاضای متغیر زمانی و مکانی بهینه‌سازی کنند.
+    </p>
+    <ul>
+        <li><strong>متغیر هدف:</strong> تعداد سفرهای شروع‌شده در هر ناحیه طی یک بازه زمانی ساعتی (<span class="code-block">trip_count</span>).</li>
+        <li><strong>واحد تحلیل:</strong> جفت «شناسه منطقه مبدأ - بازه زمانی ساعتی».</li>
+        <li><strong>سؤال اصلی:</strong> آیا می‌توان با استفاده از ویژگی‌های چرخه‌ای زمان و الگوی تاریخی تقاضا، حجم سفرهای ساعتی مناطق مختلف را پیش‌بینی کرد؟</li>
+    </ul>
+
+    <h3>۲. ممیزی ساختار و کیفیت داده‌ها (Data Quality Audit)</h3>
+    <p>
+        تحلیل بر روی داده‌های رسمی تاکسی زرد نیویورک (مربوط به ژانویه ۲۰۲۴) انجام شد. نتایج ممیزی اولیه به شرح زیر است:
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>شاخص ممیزی</th>
+                <th>مقدار / تعداد</th>
+                <th>توضیحات و تصمیم تحلیلی</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>تعداد کل رکوردها (سفرها)</td>
+                <td>۲,۹۶۴,۶۲۴</td>
+                <td>حجم کل مشاهدات بارگذاری شده از فایل parquet</td>
+            </tr>
+            <tr>
+                <td>تعداد ویژگی‌ها (ستون‌ها)</td>
+                <td>۱۹</td>
+                <td>شامل زمان، مسافت، کرایه، شناسه مکان‌ها و...</td>
+            </tr>
+            <tr>
+                <td>مقادیر گمشده (Missing Values)</td>
+                <td>۱۴۰,۱۶۲ رکورد</td>
+                <td>مشاهده شده در ستون‌های passenger_count و RatecodeID</td>
+            </tr>
+            <tr>
+                <td>کرایه‌های منفی یا غیرممکن</td>
+                <td>۳۷,۴۴۸ رکورد</td>
+                <td>اشکالات سیستمی یا اصلاح تراکنش (نیاز به پاک‌سازی در فاز ۲)</td>
+            </tr>
+            <tr>
+                <td>مسافت صفر با کرایه بالا (>۵۰$)</td>
+                <td>۸,۶۸۱ رکورد</td>
+                <td>سفرهای کنسل شده یا خطای سنجش مسافت GPS</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>۳. تحلیل اکتشافی (EDA) و الگوهای تصویری داده‌ها</h3>
+    <p>
+        برای درک عمیق‌تر رفتار داده‌ها، بررسی‌های تک‌متغیره و چندمتغیره روی بعد زمان و مکان صورت گرفت که نتایج آن در قالب نمودارهای زیر استخراج شده است:
+    </p>
+
+    <!-- نمودار اول: توزیع ساعتی -->
+    <div class="figure-box">
+        <img src="../figures/hourly_trip_distribution.png" alt="Hourly Trip Distribution">
+        <div class="figure-caption">شکل ۱: توزیع فراوانی سفرهای تاکسی در ساعات مختلف شبانه‌روز</div>
+    </div>
+    <p>
+        <strong>تحلیل نمودار ساعتی:</strong> همان‌طور که در شکل ۱ مشاهده می‌شود، کمترین میزان تقاضا در ساعات اولیه بامداد (بین ساعت ۴ تا ۵) رخ می‌دهد. با شروع فعالیت روزانه، تقاضا روند صعودی به خود گرفته و در ساعات عصرگاهی و اوایل شب (ساعات ۱۷ الی ۱۹) به نقطه اوج (Peak) خود می‌رسد که نشان‌دهنده تاثیر مستقیم ساعات بازگشت از محل کار بر تقاضای ناوگان است.
+    </p>
+
+    <!-- نمودار دوم: توزیع روزانه -->
+    <div class="figure-box">
+        <img src="../figures/daily_trip_distribution.png" alt="Daily Trip Distribution">
+        <div class="figure-caption">شکل ۲: توزیع تعداد سفرها در روزهای مختلف هفته</div>
+    </div>
+    <p>
+        <strong>تحلیل نمودار روزانه:</strong> بررسی توزیع سفرها بر حسب روزهای هفته (شکل ۲) حاکی از آن است که روزهای پایانی هفته کاری (به‌ویژه پنج‌شنبه و جمعه) بیشترین حجم سفرهای شهری را ثبت کرده‌اند، در حالی که روزهای یکشنبه و دوشنبه تقاضای نسبتاً آرام‌تری دارند.
+    </p>
+
+    <!-- نمودار سوم: مناطق پرتقاضا -->
+    <div class="figure-box">
+        <img src="../figures/top_pickup_zones.png" alt="Top Pickup Zones">
+        <div class="figure-caption">شکل ۳: ۱۰ منطقه پرتقاضا به عنوان مبدأ سفر (Top Pick-up Taxi Zones)</div>
+    </div>
+    <p>
+        <strong>تحلیل ممیزی مکانی:</strong> نمودار میله‌ای ۱۰ منطقه برتر مبدأ (شکل ۳) نشان می‌دهد که توزیع تقاضای مکانی به شدت نامتوازن است و بخش قابل‌توجهی از سفرها از چند هاب اصلی (مانند مناطق مرکزی منهتن و ترمینال‌های مسافربری) سرچشمه می‌گیرند که این موضوع ضرورت مدل‌سازی مکانی-زمانی را توجیه می‌کند.
+    </p>
+
+    <!-- نمودار چهارم: مسافت در برابر مدت زمان -->
+    <div class="figure-box">
+        <img src="../figures/distance_vs_duration.png" alt="Distance vs Duration">
+        <div class="figure-caption">شکل ۴: بررسی همبستگی میان مسافت سفر و مدت زمان (برش نمونه ۵۰۰۰ تایی)</div>
+    </div>
+    <p>
+        <strong>تحلیل سازگاری متغیرها:</strong> نمودار پراکندگی مسافت در برابر مدت زمان سفر (شکل ۴) نشان‌دهنده همبستگی مثبت کلی این دو متغیر است. با این حال، وجود نقاط دورافتاده (Outliers) با مسافت صفر و زمان بالا، اهمیت پاک‌سازی دقیق داده‌ها در فاز دوم را دوچندان می‌کند.
+    </p>
+
+    <h3>۴. خط مبنا (Baseline) و ریسک‌های نشت اطلاعات (Leakage)</h3>
+    <div class="box">
+        <strong>خط مبنای اولیه (Historical Baseline):</strong> 
+        استفاده از میانگین تقاضای تاریخی همان ساعت در روزهای مشابه هفته‌های گذشته به عنوان حد پایین عملکرد مدل‌ها در نظر گرفته می‌شود.
+    </div>
+    <p>
+        <strong>ریسک‌های نشت اطلاعات (Data Leakage):</strong>
+    </p>
+    <ul>
+        <li>هرگونه تقسیم‌بندی تصادفی داده‌ها (Random Split) باعث نشت اطلاعات آینده به گذشته می‌شود. بنابراین حتماً از <strong>تقسیم‌بندی زمانی (Temporal Split)</strong> استفاده خواهد شد.</li>
+        <li>پارامترهای نرمالسازی و پاک‌سازی داده‌ها صرفاً باید روی داده‌های آموزش (Train Set) محاسبه شوند.</li>
+    </ul>
+
+    <h3>۵. برنامه فاز بعدی</h3>
+    <p>
+        در فاز دوم، ساخت پایپلاین پیش‌پردازش برای حذف داده‌های ناصحیح، مهندسی ویژگی‌های چرخه‌ای زمان (Sin/Cos) و خوشه‌بندی مناطق بر اساس تقاضا انجام خواهد شد.
+    </p>
+</div>
+
+</body>
+</html>

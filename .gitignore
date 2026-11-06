@@ -1,0 +1,20 @@
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Large Datasets & Raw Data (Never push raw parquet/csv files)
+data/*.parquet
+data/*.csv
+data/raw/
+data/processed/
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# OS Specific Files
+.DS_Store
+Thumbs.db
